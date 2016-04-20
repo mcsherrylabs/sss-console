@@ -2,18 +2,19 @@ package sss.ui
 
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.servlet.ServletContextHandler
+import sss.ancillary.Configure
 
 /**
  * Created by alan on 12/8/15.
  */
 
-class ServerLauncher(port: Int, contextPath: String) {
+class ServerLauncher(port: Int, contextPath: String) extends Configure {
 
   val server: Server = new Server(port)
   private val context: ServletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS)
 
   context.setContextPath(contextPath)
-  context.setResourceBase("./WebContent")
+  context.setResourceBase(config.getString("resourceBase"))
   server.setHandler(context)
 
   context.addServlet(classOf[Servlet], "/*")

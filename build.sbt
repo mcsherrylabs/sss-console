@@ -1,12 +1,18 @@
+import NativePackagerHelper._
+
+enablePlugins(JavaAppPackaging)
+
+packageSummary in Linux := "sss-console"
 
 scalaVersion := "2.11.8"
+
+version := "0.4"
 
 resolvers += "indvd00m-github-repo" at "https://github.com/indvd00m/maven-repo/raw/master/repository"
 
 resolvers += "Sonatype Nexus Releases" at "https://oss.sonatype.org/content/repositories/releases"
 
-Seq(vaadinWebSettings: _*)
-
+//Seq(vaadinWebSettings: _*)
 
 val vaadinVer = "7.5.8"
 
@@ -29,13 +35,15 @@ libraryDependencies ++= Seq(
 
 // Settings for the Vaadin plugin widgetset compilation
 // Widgetset compilation needs memory and to avoid an out of memory error it usually needs more memory:
-javaOptions in compileVaadinWidgetsets := Seq("-Xss8M", "-Xmx512M", "-XX:MaxPermSize=512M")
+//javaOptions in compileVaadinWidgetsets := Seq("-Xss8M", "-Xmx512M", "-XX:MaxPermSize=512M")
 
-vaadinWidgetsets := Seq("DemoWidgetSet")
+//vaadinWidgetsets := Seq("DemoWidgetSet")
 
 //vaadinOptions in compileVaadinWidgetsets := Seq("-logLevel", "DEBUG", "-strict")
 
 // Compile widgetsets into the source directory (by default themes are compiled into the target directory)
-target in compileVaadinWidgetsets := (sourceDirectory in Compile).value / "webapp" / "VAADIN" / "widgetsets"
+//target in compileVaadinWidgetsets := (baseDirectory).value / "WebContent" / "VAADIN" / "widgetsets"
+
+mappings in Universal ++= directory("WebContent")
 
 mainClass in (Compile, run) := Some("sss.ui.ServerLauncher")
