@@ -1,4 +1,4 @@
-# sss-console
+# sss.console
 Use a web page like a console.
 
 Two panel VAADIN based UI.
