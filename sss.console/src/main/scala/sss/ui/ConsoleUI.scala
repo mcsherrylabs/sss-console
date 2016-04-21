@@ -17,7 +17,7 @@ import sss.ui.reactor.UIReactor
 @Push
 class ConsoleUI extends UI {
 
-  val console: Console = new Console
+  val console = new Console
   val uiReactor = UIReactor(this)
 
   val req = uiReactor.actorOf(Props(classOf[RequestActor], console))
@@ -25,7 +25,7 @@ class ConsoleUI extends UI {
   protected def init(request: VaadinRequest) {
     getPage.setTitle("sss console")
     val baseLayout = new HorizontalLayout
-    baseLayout.setMargin(false);
+    baseLayout.setMargin(false)
     baseLayout.setSizeFull
 
     setContent(baseLayout)
@@ -49,9 +49,7 @@ class ConsoleUI extends UI {
 
 
     val helpCommand: Console.Command = new Console.Command() {
-      def getUsage(console: Console, argv: Array[String]): String = {
-        return argv(0) + " <command>"
-      }
+      def getUsage(console: Console, argv: Array[String]): String = argv(0) + " <command>"
 
       def execute(console: Console, argv: Array[String]): Object = {
         if (argv.length == 2) {
@@ -71,6 +69,6 @@ class ConsoleUI extends UI {
 
   protected def listAvailableCommands: String = {
     req ! ListCommands
-    return "--->"
+    "--->"
   }
 }

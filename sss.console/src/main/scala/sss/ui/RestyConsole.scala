@@ -57,10 +57,10 @@ object RestyConsole {
     val cmds = {
       val json = resty.json(s"$urlStr/commands")
       val ary = json.array()
-      (0 to ary.length - 1).map { i =>
+      (0 until ary.length).map { i =>
         val cmd = ary.getJSONObject(i)
         val cmdName = cmd.getString("name")
-        (cmdName -> new RestyCommand(broadcast, cmdName, urlStr, resty, cmd.getString("help")))
+        cmdName -> new RestyCommand(broadcast, cmdName, urlStr, resty, cmd.getString("help"))
       }.toMap
     }
 
@@ -70,7 +70,9 @@ object RestyConsole {
     override def getAvailableCommands(console: Console): util.Set[String] = cmds.keys.toSet[String]
   }
 
-  class RestyCommand(broadcast: ActorRef, cmdName: String, urlStr: String, resty: Resty, helpStr: String) extends Command with Logging {
+  class RestyCommand(broadcast: ActorRef, cmdName: String, urlStr: String, resty: Resty, helpStr: String)
+    extends Command with Logging {
+
     override def execute(console: Console, argv: Array[String]): AnyRef = {
 
       val paramsOnly = argv
@@ -84,9 +86,7 @@ object RestyConsole {
           e.getMessage
         case Success(json) =>
           val ary = json.array()
-          (0 to ary.length - 1).map { i =>
-            broadcast ! Feedback(ary.getString(i))
-          }
+          (0 until ary.length).foreach( i => broadcast ! Feedback(ary.getString(i)))
           "Ok"
       }
     }
