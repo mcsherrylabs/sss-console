@@ -1,4 +1,6 @@
 /build/
 /project
 /target
+/*/target
+/*/*/target
 .idea
