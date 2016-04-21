@@ -10,6 +10,13 @@ import sss.ui.RestyConsole.{ReqConnect, ReqDisconnect}
   */
 object Commands {
 
+  object NullCmd extends Command {
+    @throws[Exception]
+    def execute(console: Console, argv: Array[String]): Object = "No such command"
+    def getUsage(console: Console, argv: Array[String]): String = "This is the null command"
+  }
+
+
   class DisconnectCmd(actorRef: ActorRef) extends Command {
     @throws[Exception]
     def execute(console: Console, argv: Array[String]): Object = {
@@ -26,27 +33,28 @@ object Commands {
   class ConnectCmd(actorRef: ActorRef) extends Command {
     @throws[Exception]
     def execute(console: Console, argv: Array[String]): Object = {
-      val connectStr = if(argv.size == 1) s"localhost:7676"
-      else if(argv.size == 2) s"localhost:${argv(1)}"
-      else s"${argv(1)}:${argv(2)}"
+      val connectStr = if(argv.size == 1) s"localhost:7676/console"
+      else s"localhost:${argv(1)}"
+
       actorRef ! ReqConnect(connectStr)
       s"Trying to connect to port '$connectStr' ..."
     }
 
     def getUsage(console: Console, argv: Array[String]): String = {
-      return "connect <port> OR connect <host>:<port>"
+      return "connect <port> OR connect <host><port> OR connect <host><port><contextpath>"
     }
   }
 
   class ClearCmd(actorRef: ActorRef) extends Command {
     @throws[Exception]
     def execute(console: Console, argv: Array[String]): Object = {
-      actorRef ! ClearPanel
+      if(argv.size > 1 && "rhs".compareToIgnoreCase(argv(1)) == 0) actorRef ! ClearPanel
+      else console.clear
       s"Ok"
     }
 
     def getUsage(console: Console, argv: Array[String]): String = {
-      return "clear (clears the right hand panel)"
+      return "clear [rhs] - rhs will clear the right hand side."
     }
   }
 }

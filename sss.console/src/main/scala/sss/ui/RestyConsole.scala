@@ -7,6 +7,7 @@ import com.vaadin.ui.UI
 import org.vaadin7.console.Console
 import org.vaadin7.console.Console.{Command, CommandProvider}
 import sss.ancillary.Logging
+import sss.ui.Commands.NullCmd
 import sss.ui.reactor.UIEventActor
 import us.monoid.web.Resty
 
@@ -64,7 +65,7 @@ object RestyConsole {
     }
 
 
-    override def getCommand(console: Console, commandName: String): Command = cmds(commandName)
+    override def getCommand(console: Console, commandName: String): Command = cmds.getOrElse(commandName, NullCmd)
 
     override def getAvailableCommands(console: Console): util.Set[String] = cmds.keys.toSet[String]
   }
@@ -72,7 +73,11 @@ object RestyConsole {
   class RestyCommand(broadcast: ActorRef, cmdName: String, urlStr: String, resty: Resty, helpStr: String) extends Command with Logging {
     override def execute(console: Console, argv: Array[String]): AnyRef = {
 
-      Try (resty.json(s"$urlStr/command/$cmdName?${argv.mkString("&")}")) match {
+      val paramsOnly = argv
+      val paramsStr = paramsOnly.indices.map(i => s"$i=${paramsOnly(i)}").mkString("&")
+      val url = s"$urlStr/command?${paramsStr}"
+
+      Try (resty.json(url)) match {
         case Failure(e) =>
           broadcast ! Feedback(s"$urlStr Transport error executing command.")
           log.warn(s"Transport error $urlStr", e)

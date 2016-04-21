@@ -3,8 +3,8 @@ package sss.ui
 
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.servlet.ServletContextHandler
-import org.scalatra.ScalatraServlet
-import spray.json._
+
+import sss.ui.console.util.{Cmd, ConsoleServlet}
 /**
  * Created by alan on 12/8/15.
  */
@@ -19,7 +19,7 @@ class TestServerLauncher(port: Int, contextPath: String) {
 
   server.setHandler(context)
 
-  context.addServlet(classOf[MyTestServlet], "/*")
+  context.addServlet(classOf[MyTestServlet], "/console/*")
   server.start
 
   def join = server.join()
@@ -36,27 +36,11 @@ object TestServerLauncher {
   }
 }
 
-class MyTestServlet extends ScalatraServlet {
+class MyTestServlet extends ConsoleServlet {
 
-  case class Command(name: String, help: String)
+  val cmds = ((0 to 10).indices map(i => s"cmd$i" -> new Cmd {
+    override def help: String = s"cmd$i"
+    def apply(params: Seq[String]): Seq[String] = params ++ Seq("<- params")
+  })).toMap
 
-  object MyJsonProtocol extends DefaultJsonProtocol {
-    implicit val commandFormat = jsonFormat2(Command)
-
-  }
-
-  import MyJsonProtocol._
-
-  val cmds = (0 to 10).indices map(i => Command(s"cmd$i", s"help $i"))
-
-  get("/commands") {
-    val txt = cmds.toJson
-    txt
-  }
-
-  get("/command/*") {
-
-    val txt = multiParams("splat").toJson
-    txt
-  }
 }
