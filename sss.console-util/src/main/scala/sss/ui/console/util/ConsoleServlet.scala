@@ -10,7 +10,7 @@ import scala.util.{Failure, Success, Try}
   * mcsherrylabs on 3/9/16.
   */
 trait Cmd {
-  def help:String = ""
+  val help:String = ""
   def apply(params: Seq[String]) : Seq[String]
 }
 

@@ -1,9 +1,11 @@
 package sss.ui
 
 import akka.actor.ActorRef
+import com.vaadin.ui.TabSheet
 import org.vaadin7.console.Console
 import org.vaadin7.console.Console.Command
 import sss.ui.RestyConsole.ReqConnect
+import sss.ui.reactor.UIReactor
 
 /**
   * Created by alan on 4/19/16.
@@ -20,7 +22,7 @@ object Commands {
     @throws[Exception]
     def execute(console: Console, argv: Array[String]): Object = {
       val connectStr = if(argv.size == 1) s"localhost:7676/console"
-      else s"localhost:${argv(1)}"
+      else s"${argv(1)}:${argv(2)}/console"
 
       actorRef ! ReqConnect(connectStr)
       s"Trying to connect to port '$connectStr' ..."
@@ -41,6 +43,47 @@ object Commands {
 
     def getUsage(console: Console, argv: Array[String]): String = {
       "clear [rhs] - rhs will clear the right hand side."
+    }
+  }
+
+  class CloseTabCmd(tabSheet: TabSheet) extends Command {
+    @throws[Exception]
+    def execute(console: Console, argv: Array[String]): Object = {
+        tabSheet.removeComponent(tabSheet.getSelectedTab)
+        s"Ok"
+    }
+
+    def getUsage(console: Console, argv: Array[String]): String = {
+      "closetab - closes the current tab ... "
+    }
+  }
+
+  class NameTabCmd(tabSheet: TabSheet) extends Command {
+    @throws[Exception]
+    def execute(console: Console, argv: Array[String]): Object = {
+      if(argv.size > 1) {
+        tabSheet.getSelectedTab.setCaption(argv(1))
+        s"Ok"
+      } else "Give the tab a name..."
+    }
+
+    def getUsage(console: Console, argv: Array[String]): String = {
+      "nametab <name>"
+    }
+  }
+
+  class NewTabCmd(uiReactor: UIReactor, tabSheet: TabSheet) extends Command {
+    @throws[Exception]
+    def execute(console: Console, argv: Array[String]): Object = {
+      if(argv.size > 1) {
+        val t = tabSheet.addTab(new ConsoleTab(uiReactor, tabSheet), argv(1))
+        tabSheet.setSelectedTab(t)
+        s"Ok"
+      } else "Give the tab a name..."
+    }
+
+    def getUsage(console: Console, argv: Array[String]): String = {
+      "newtab <name>"
     }
   }
 }
