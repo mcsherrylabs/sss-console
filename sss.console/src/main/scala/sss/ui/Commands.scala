@@ -20,7 +20,7 @@ object Commands {
     @throws[Exception]
     def execute(console: Console, argv: Array[String]): Object = {
       val connectStr = if(argv.size == 1) s"localhost:7676/console"
-      else s"localhost:${argv(1)}"
+      else s"${argv(1)}:${argv(2)}/console"
 
       actorRef ! ReqConnect(connectStr)
       s"Trying to connect to port '$connectStr' ..."
