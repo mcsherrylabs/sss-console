@@ -28,8 +28,8 @@ libraryDependencies ++= Seq(
   "org.vaadin7.addons" % "console" %  "1.3.0",
   "us.monoid.web" % "resty" % "0.3.2",
   "mcsherrylabs.com" %% "sss-ancillary" % "0.9.3",
-  "mcsherrylabs.com" %% "sss-vaadin-akka-reactive" % "0.1+",
-  "mcsherrylabs.com" %% "sss-console-util" % "0.1.1" % "test",
+  "mcsherrylabs.com" %% "sss-vaadin-akka-reactive" % "0.2+",
+  "mcsherrylabs.com" %% "sss-console-util" % "0.1.2" % "test",
   "org.scalatra" % "scalatra_2.11" % "2.4.0",
   "io.spray" %%  "spray-json" % "1.3.2"
 )
