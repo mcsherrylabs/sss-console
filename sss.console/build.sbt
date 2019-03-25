@@ -4,8 +4,6 @@ enablePlugins(JavaAppPackaging)
 
 packageSummary in Linux := "sss-console"
 
-scalaVersion := "2.11.8"
-
 version := "0.4"
 
 resolvers += "indvd00m-github-repo" at "https://github.com/indvd00m/maven-repo/raw/master/repository"
@@ -14,12 +12,14 @@ resolvers += "Sonatype Nexus Releases" at "https://oss.sonatype.org/content/repo
 
 //Seq(vaadinWebSettings: _*)
 
-val vaadinVer = "7.5.8"
+val vaadinVer = "7.7.13"
 
 libraryDependencies ++= Seq(
-  "com.typesafe.akka" %% "akka-actor" % "2.4.0",
-  "com.typesafe.akka" %% "akka-remote" % "2.4.0",
-  "org.eclipse.jetty.aggregate" % "jetty-all-server" % "8.1.18.v20150929",
+  "com.typesafe.akka" %% "akka-actor" % Vers.akkaVer,
+  "com.typesafe.akka" %% "akka-remote" % Vers.akkaVer,
+  //"org.eclipse.jetty.aggregate" % "jetty-all-server" % "8.1.18.v20150929",
+  // https://mvnrepository.com/artifact/javax.portlet/portlet-api
+  "javax.portlet" % "portlet-api" % "2.0" % "provided",
   "com.vaadin" % "vaadin-server" % vaadinVer,
   "com.vaadin" % "vaadin-themes" % vaadinVer,
   "com.vaadin" % "vaadin-push" % vaadinVer,
@@ -27,11 +27,9 @@ libraryDependencies ++= Seq(
   "com.vaadin" % "vaadin-client-compiled" % vaadinVer,
   "org.vaadin7.addons" % "console" %  "1.3.0",
   "us.monoid.web" % "resty" % "0.3.2",
-  "mcsherrylabs.com" %% "sss-ancillary" % "0.9.3",
-  "mcsherrylabs.com" %% "sss-vaadin-akka-reactive" % "0.2+",
-  "mcsherrylabs.com" %% "sss-console-util" % "0.1.2" % "test",
-  "org.scalatra" % "scalatra_2.11" % "2.4.0",
-  "io.spray" %%  "spray-json" % "1.3.2"
+  "com.mcsherrylabs" %% "sss-ancillary" % Vers.ancillaryVer,
+  "com.mcsherrylabs" %% "sss-vaadin-akka-reactive" % "0.4-SNAPSHOT",
+  "com.mcsherrylabs" %% "sss-console-util" % Vers.consoleUtilVer % Test
 )
 
 

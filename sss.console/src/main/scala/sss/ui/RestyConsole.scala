@@ -11,7 +11,7 @@ import sss.ui.Commands.NullCmd
 import sss.ui.reactor.UIEventActor
 import us.monoid.web.Resty
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 import scala.util.{Failure, Success, Try}
 
 /**
@@ -31,7 +31,7 @@ object RestyConsole {
 
     def react(reactor: ActorRef, broadcaster: ActorRef, ui: UI) = {
 
-      case ListCommands => console.getCommands.foreach(broadcaster ! Feedback(_))
+      case ListCommands => console.getCommands.asScala.foreach(broadcaster ! Feedback(_))
 
       case cp@ ClearPanel => broadcaster ! cp
 
@@ -67,7 +67,7 @@ object RestyConsole {
 
     override def getCommand(console: Console, commandName: String): Command = cmds.getOrElse(commandName, NullCmd)
 
-    override def getAvailableCommands(console: Console): util.Set[String] = cmds.keys.toSet[String]
+    override def getAvailableCommands(console: Console): util.Set[String] = cmds.keys.toSet[String].asJava
   }
 
   class RestyCommand(broadcast: ActorRef, cmdName: String, urlStr: String, resty: Resty, helpStr: String)

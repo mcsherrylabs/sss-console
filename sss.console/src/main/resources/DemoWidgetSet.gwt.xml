@@ -22,12 +22,12 @@
     <!-- <set-configuration-property name="devModeRedirectEnabled" value="true" /> -->
 
 
-
     <inherits name="org.vaadin7.console.WidgetSet" />
 
-    <inherits name="com.vaadin.DefaultWidgetSet" />
+    <!--inherits name="com.vaadin.DefaultWidgetSet" /-->
 
     
 
     
+
 </module>
