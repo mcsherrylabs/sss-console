@@ -35,7 +35,7 @@ trait ConsoleServlet extends ScalatraServlet {
 
   get("/command") {
     Try[Seq[String]] {
-      val allParams = params.toSeq.sortBy(_._1).map(_._2)
+      val allParams = params.toMap.toSeq.sortBy(_._1).map(_._2)
 
       cmds(allParams.head)(allParams.tail)
     } match {

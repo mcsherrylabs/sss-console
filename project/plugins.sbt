@@ -14,7 +14,7 @@ resolvers += Classpaths.typesafeReleases
 
 //addSbtPlugin("org.vaadin.sbt" % "sbt-vaadin-plugin" % "1.2.0")
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.3.6")
+addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.6.1")
 
 
 

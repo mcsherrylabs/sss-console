@@ -4,7 +4,7 @@ enablePlugins(JavaAppPackaging)
 
 packageSummary in Linux := "sss-console"
 
-version := "0.4"
+version := "0.5"
 
 resolvers += "indvd00m-github-repo" at "https://github.com/indvd00m/maven-repo/raw/master/repository"
 
@@ -28,7 +28,7 @@ libraryDependencies ++= Seq(
   "org.vaadin7.addons" % "console" %  "1.3.0",
   "us.monoid.web" % "resty" % "0.3.2",
   "com.mcsherrylabs" %% "sss-ancillary" % Vers.ancillaryVer,
-  "com.mcsherrylabs" %% "sss-vaadin-akka-reactive" % "0.4-SNAPSHOT",
+  "com.mcsherrylabs" %% "sss-vaadin-akka-reactive" % "0.4.2-SNAPSHOT",
   "com.mcsherrylabs" %% "sss-console-util" % Vers.consoleUtilVer % Test
 )
 
